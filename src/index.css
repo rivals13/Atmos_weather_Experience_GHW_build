@@ -1,0 +1,389 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+  --sky-top: #9eb4c7;
+  --sky-mid: #d5dee6;
+  --sky-bottom: #e7ece8;
+  --ink: #1d2c34;
+  --sun: #f3df9a;
+  --sun-halo: rgba(255, 224, 138, 0.35);
+  --moon: #f6f1dd;
+  --star: #f4f0e8;
+  --cloud-fill: #f7f8f8;
+  --precip: rgba(255, 255, 255, 0.72);
+  --mountain-far: #c5cfc8;
+  --mountain: #b0bbb4;
+  --hill-back: #c5d2c4;
+  --hill-mid: #a9bda8;
+  --hill-front: #8eaa90;
+  --mist: rgba(247, 248, 246, 0.72);
+  --snow-cap: #f7fbff;
+  --lightning: #f3e7b2;
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  background: var(--sky-bottom);
+}
+
+#root {
+  min-height: 100svh;
+}
+
+.app {
+  display: flex;
+  min-height: 100svh;
+  flex-direction: column;
+  background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 48%, var(--sky-bottom) 80%);
+  color: var(--ink);
+  transition: background 900ms ease, color 900ms ease;
+}
+
+.stage::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  height: 4.5rem;
+  background: linear-gradient(180deg, transparent, #f7f4ef);
+  pointer-events: none;
+}
+
+.landscape {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.sun,
+.moon,
+.stars,
+.cloud-layer,
+.precip,
+.mist,
+.snow-cap,
+.lightning {
+  opacity: 0;
+}
+
+.sun { fill: var(--sun); }
+.sun-halo { fill: var(--sun-halo); }
+.moon { fill: var(--moon); }
+.stars { fill: var(--star); }
+.cloud-layer { fill: var(--cloud-fill); }
+.precip { stroke: var(--precip); fill: var(--snow-cap); }
+.mist { fill: var(--mist); }
+.snow-cap { fill: var(--snow-cap); }
+.lightning { fill: var(--lightning); }
+.mountain-far { fill: var(--mountain-far); }
+.mountain { fill: var(--mountain); }
+.hill-back { fill: var(--hill-back); }
+.hill-mid { fill: var(--hill-mid); }
+.hill-front { fill: var(--hill-front); }
+
+.mountain-far,
+.mountain,
+.hill-back,
+.hill-mid,
+.hill-front,
+.sun,
+.moon,
+.cloud-layer,
+.mist,
+.snow-cap {
+  transition: fill 900ms ease, opacity 900ms ease;
+}
+
+[data-scene$='-clear'] .sun,
+[data-scene$='-partly'] .sun,
+[data-scene='day-fog'] .sun {
+  opacity: 1;
+}
+[data-scene='day-fog'] .sun { opacity: 0.35; }
+[data-scene^='night'] .sun { opacity: 0; }
+[data-scene='night-clear'] .moon,
+[data-scene='night-partly'] .moon,
+[data-scene='night-snow'] .moon { opacity: 1; }
+[data-scene='night-fog'] .moon { opacity: 0.35; }
+[data-scene^='night'] .stars { opacity: 0.9; }
+[data-scene='night-overcast'] .stars,
+[data-scene='night-fog'] .stars,
+[data-scene='night-rain'] .stars,
+[data-scene='night-drizzle'] .stars,
+[data-scene='night-storm'] .stars { opacity: 0.2; }
+[data-scene$='-partly'] .cloud-partly { opacity: 0.92; }
+[data-scene$='-overcast'] .cloud-overcast,
+[data-scene$='-fog'] .cloud-overcast,
+[data-scene$='-drizzle'] .cloud-overcast,
+[data-scene$='-rain'] .cloud-overcast,
+[data-scene$='-snow'] .cloud-overcast,
+[data-scene$='-storm'] .cloud-overcast { opacity: 0.96; }
+[data-scene$='-drizzle'] .precip-drizzle { opacity: 0.75; }
+[data-scene$='-rain'] .precip-rain,
+[data-scene$='-storm'] .precip-rain { opacity: 0.8; }
+[data-scene$='-snow'] .precip-snow,
+[data-scene$='-snow'] .snow-cap { opacity: 0.95; }
+[data-scene$='-fog'] .mist { opacity: 0.78; }
+[data-scene$='-drizzle'] .mist { opacity: 0.28; }
+[data-scene$='-storm'] .lightning { opacity: 0.45; }
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-scene$='-storm'] .lightning { opacity: 0.28; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app,
+  .mountain-far,
+  .mountain,
+  .hill-back,
+  .hill-mid,
+  .hill-front,
+  .sun,
+  .moon,
+  .cloud-layer,
+  .mist,
+  .snow-cap {
+    transition: none;
+  }
+}
+
+[data-scene='day-clear'] {
+  --sky-top: #7ec8f2;
+  --sky-mid: #d7eef8;
+  --sky-bottom: #f6e2b0;
+  --ink: #17323c;
+  --sun: #ffe7a3;
+  --sun-halo: rgba(255, 214, 120, 0.45);
+  --mountain-far: #d7e3c4;
+  --mountain: #b7cba6;
+  --hill-back: #9cbe8e;
+  --hill-mid: #7eaa78;
+  --hill-front: #629468;
+  --cloud-fill: #fff;
+}
+
+[data-scene='day-partly'] {
+  --sky-top: #8ec4ea;
+  --sky-mid: #e4f0f4;
+  --sky-bottom: #f3e6c4;
+  --ink: #1a333c;
+  --sun: #ffe3a0;
+  --mountain-far: #d3dfc6;
+  --mountain: #b4c8a8;
+  --hill-back: #97b88c;
+  --hill-mid: #7aa676;
+  --hill-front: #5f9166;
+  --cloud-fill: #fff;
+}
+
+[data-scene='day-overcast'] {
+  --sky-top: #a9b8c4;
+  --sky-mid: #d5dee4;
+  --sky-bottom: #e6ebe8;
+  --ink: #1e2c34;
+  --mountain-far: #c9d2cc;
+  --mountain: #b4beb8;
+  --hill-back: #a3b0aa;
+  --hill-mid: #8d9d96;
+  --hill-front: #7b8d86;
+  --cloud-fill: #f4f7f8;
+}
+
+[data-scene='day-fog'] {
+  --sky-top: #d5dde2;
+  --sky-mid: #e7ecee;
+  --sky-bottom: #f3f4f2;
+  --ink: #2a3940;
+  --sun: #f4efe4;
+  --mountain-far: #e3e8e8;
+  --mountain: #d4dcde;
+  --hill-back: #c9d2d0;
+  --hill-mid: #bcc7c4;
+  --hill-front: #b0bbb8;
+  --mist: rgba(248, 249, 248, 0.82);
+  --cloud-fill: #fbfcfc;
+}
+
+[data-scene='day-drizzle'] {
+  --sky-top: #8eabbc;
+  --sky-mid: #c5d5de;
+  --sky-bottom: #e3eaec;
+  --ink: #173039;
+  --mountain-far: #c5d4d4;
+  --mountain: #a9bebf;
+  --hill-back: #93b0b0;
+  --hill-mid: #7c9e9e;
+  --hill-front: #688c8c;
+  --precip: rgba(232, 240, 242, 0.9);
+  --cloud-fill: #eef3f5;
+}
+
+[data-scene='day-rain'] {
+  --sky-top: #6d8fa3;
+  --sky-mid: #a8c0cc;
+  --sky-bottom: #c9d5db;
+  --ink: #132830;
+  --mountain-far: #b7c8cc;
+  --mountain: #96b0b4;
+  --hill-back: #7f9ea2;
+  --hill-mid: #68898e;
+  --hill-front: #56777c;
+  --precip: rgba(226, 236, 240, 0.88);
+  --cloud-fill: #e4ebef;
+}
+
+[data-scene='day-snow'] {
+  --sky-top: #d7e6f0;
+  --sky-mid: #eef3f6;
+  --sky-bottom: #f7f6f3;
+  --ink: #24343c;
+  --mountain-far: #e4eef2;
+  --mountain: #d0e0e8;
+  --hill-back: #c5d5de;
+  --hill-mid: #b7cbd6;
+  --hill-front: #a9c0cc;
+  --snow-cap: #f7fbff;
+  --precip: #f7fbff;
+  --cloud-fill: #fff;
+}
+
+[data-scene='day-storm'] {
+  --sky-top: #3e4c5c;
+  --sky-mid: #667584;
+  --sky-bottom: #8d9aa3;
+  --ink: #101820;
+  --mountain-far: #8b99a2;
+  --mountain: #73828b;
+  --hill-back: #64727b;
+  --hill-mid: #55646d;
+  --hill-front: #47555e;
+  --cloud-fill: #d5dde2;
+  --lightning: #f4e7b0;
+  --precip: rgba(214, 224, 230, 0.8);
+}
+
+[data-scene='night-clear'] {
+  --sky-top: #14132f;
+  --sky-mid: #2c275c;
+  --sky-bottom: #40386e;
+  --ink: #f4f0e8;
+  --moon: #f7f2df;
+  --star: #f6f3ea;
+  --mountain-far: #3a4068;
+  --mountain: #31365c;
+  --hill-back: #2a3054;
+  --hill-mid: #232848;
+  --hill-front: #1b213c;
+}
+
+[data-scene='night-partly'] {
+  --sky-top: #17182f;
+  --sky-mid: #2a3158;
+  --sky-bottom: #3a4168;
+  --ink: #f3efe8;
+  --moon: #f4f0e2;
+  --cloud-fill: rgba(232, 236, 244, 0.82);
+  --mountain-far: #353b5e;
+  --mountain: #2d3354;
+  --hill-back: #262c4a;
+  --hill-mid: #202640;
+  --hill-front: #191e36;
+}
+
+[data-scene='night-overcast'] {
+  --sky-top: #1a1e33;
+  --sky-mid: #2d3554;
+  --sky-bottom: #3d4664;
+  --ink: #f3efe8;
+  --cloud-fill: rgba(210, 218, 228, 0.78);
+  --mountain-far: #343a50;
+  --mountain: #2c3246;
+  --hill-back: #262c3e;
+  --hill-mid: #212636;
+  --hill-front: #1a1f2e;
+}
+
+[data-scene='night-fog'] {
+  --sky-top: #2a3140;
+  --sky-mid: #3a4454;
+  --sky-bottom: #4a5564;
+  --ink: #f4f2ee;
+  --moon: #e7e4dc;
+  --mist: rgba(226, 230, 234, 0.45);
+  --cloud-fill: rgba(232, 236, 240, 0.55);
+  --mountain-far: #4a5562;
+  --mountain: #3e4956;
+  --hill-back: #36414c;
+  --hill-mid: #2e3842;
+  --hill-front: #27313a;
+}
+
+[data-scene='night-drizzle'] {
+  --sky-top: #15202c;
+  --sky-mid: #243444;
+  --sky-bottom: #334656;
+  --ink: #eef2f4;
+  --precip: rgba(210, 224, 232, 0.7);
+  --cloud-fill: rgba(198, 210, 220, 0.72);
+  --mountain-far: #314252;
+  --mountain: #293848;
+  --hill-back: #233140;
+  --hill-mid: #1d2936;
+  --hill-front: #17222c;
+}
+
+[data-scene='night-rain'] {
+  --sky-top: #101820;
+  --sky-mid: #1c2a38;
+  --sky-bottom: #2a3c4c;
+  --ink: #eef2f4;
+  --precip: rgba(198, 214, 224, 0.75);
+  --cloud-fill: rgba(186, 200, 212, 0.7);
+  --mountain-far: #2a3a48;
+  --mountain: #223240;
+  --hill-back: #1c2a36;
+  --hill-mid: #17232e;
+  --hill-front: #121c26;
+}
+
+[data-scene='night-snow'] {
+  --sky-top: #1c2433;
+  --sky-mid: #334056;
+  --sky-bottom: #46556a;
+  --ink: #f5f7f8;
+  --moon: #f7f4ee;
+  --snow-cap: #f4f8fb;
+  --precip: #f4f8fb;
+  --cloud-fill: rgba(236, 242, 246, 0.8);
+  --mountain-far: #46566a;
+  --mountain: #3c4c60;
+  --hill-back: #344456;
+  --hill-mid: #2c3a4a;
+  --hill-front: #243242;
+}
+
+[data-scene='night-storm'] {
+  --sky-top: #0c1016;
+  --sky-mid: #1a2230;
+  --sky-bottom: #283240;
+  --ink: #f2f0ea;
+  --lightning: #f6e7a8;
+  --precip: rgba(186, 198, 210, 0.65);
+  --cloud-fill: rgba(120, 132, 146, 0.9);
+  --mountain-far: #2a313c;
+  --mountain: #222832;
+  --hill-back: #1c222c;
+  --hill-mid: #171c24;
+  --hill-front: #12161c;
+}
+
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
